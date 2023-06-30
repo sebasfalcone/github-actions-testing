@@ -4,16 +4,13 @@ run-name: RTR for ${{ github.ref_name }} by ${{ github.actor }}
 # This workflow will run when a pull request is opened, reopened, or synchronized.
 on:
   pull_request:
-		types: [ready_for_review]
+    types: [ready_for_review]
 
 jobs:
 
-	console log:
-  	runs-on: ubuntu-22.04
-    
-		steps:
-    	- name: hello-world
-      	run: |
-      		echo "Hello world"
-			
-				
+  console-log:
+    runs-on: ubuntu-22.04
+    steps:
+      - name: hello-world
+        run: >
+          echo "Hello world"
