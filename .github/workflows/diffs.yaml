@@ -23,7 +23,7 @@ jobs:
         run: |
           
           DIFFS=$(git diff --name-only HEAD HEAD~1)
-          if echo $DIFFS | grep -E ${{ matrix.project.dependencies }}"; then
+          if echo $DIFFS | grep -E ${{ matrix.project.dependencies }}; then
             echo "COMPILATION_FLAG=true" >> $GITHUB_ENV
           else
             echo "COMPILATION_FLAG=false" >> $GITHUB_ENV
