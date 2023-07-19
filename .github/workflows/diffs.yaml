@@ -5,14 +5,19 @@ jobs:
     name: diff
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - uses: technote-space/get-diff-action@v6
-        with:
-          PATTERNS: |
-            src/**/*.cpp
-            !src/**/exclude.cpp
+      # Prepare project repository.
+      - name: Checkout repository
+        uses: actions/checkout@v3
+      
+      - name: Get differences
+        run: git diff --name-only HEAD^..HEAD
+        id: all_diffs
+
+      - name: Filter differences
+        run: cat $ {{ steps.all_diffs }} | grep src | grep cpp
+        id: filtered_diffs
+        
       - name: Check for differences
         if: env.GIT_DIFF
         run: |
-          echo 'Diff ${{ env.GIT_DIFF }}'
-          echo 'Diff filtered ${{ env.GIT_DIFF_FILTERED }}'
+          echo ${{ steps.filtered_diffs }}
