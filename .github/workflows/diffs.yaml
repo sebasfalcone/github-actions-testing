@@ -7,9 +7,12 @@ jobs:
 
     strategy:
       matrix:
-        project: # Filter , compilation path
-          - ['src.*one.*cpp', /src/one]
-          - ['src.*two.*cpp', /src/two]
+        dependencies:
+          - ['src.*one.*cpp', 'src.*two.*cpp']
+          - ['src.*two.*cpp']
+        path:
+          - src/one
+          - src/two
     steps:
       # Prepare project repository.
       - name: Checkout repository
@@ -19,8 +22,14 @@ jobs:
       
       - name: Check for compilation requirement
         run: |
+          
+          grep_command=""
+          for filter in ${{ matrix.dependencies[@] }}; do
+            grep_command=" | $grep_command -e $filter"
+          done
+
           DIFFS=$(git diff --name-only HEAD HEAD~1)
-          if echo $DIFFS | grep -q "${{ matrix.project[0] }}"; then
+          if echo $DIFFS | $(grep_command)"; then
             echo "COMPILATION_FLAG=true" >> $GITHUB_ENV
           else
             echo "COMPILATION_FLAG=false" >> $GITHUB_ENV
