@@ -4,6 +4,12 @@ jobs:
   diff:
     name: diff
     runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        project: # Filter , compilation path
+          - ['src.*one.*cpp', /src/one]
+          - ['src.*two.*cpp', /src/two]
     steps:
       # Prepare project repository.
       - name: Checkout repository
@@ -14,9 +20,14 @@ jobs:
       - name: Get differences
         run: |
           DIFFS="$(git diff --name-only HEAD HEAD~1)"
-          CHANGES="$(echo $DIFFS | grep 'src.*cpp')"
+          CHANGES="$(echo $DIFFS | grep '${{ matrix.project[0] }}')"
           echo "FLAG=$?" >> $GITHUB_ENV
-
+          
       - name: Differences on current module
-        if: env.FLAG
-        run: echo "$FLAG"
+        if: env.FLAG == 0
+        run: |
+          echo "cd ${{ matrix.project[1] }}"
+          echo "mkdir build"
+          echo "cd build"
+          echo "cmake .."
+          echo "make"

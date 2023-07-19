@@ -1,0 +1,25 @@
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  compilation:
+    runs-on: ubuntu-latest
+    inputs:
+      project-path:
+        description: 'Path to the project'
+        required: true
+    steps:
+      if: ${{ github.event.inputs.run-job-a == 'true' }}
+      # Job A steps here...
+
+  jobB:
+    runs-on: ubuntu-latest
+    inputs:
+      run-job-b:
+        description: 'Run Job B'
+        required: true
+    steps:
+      if: ${{ github.event.inputs.run-job-b == 'true' }}
+      # Job B steps here...
