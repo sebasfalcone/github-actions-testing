@@ -11,9 +11,7 @@ jobs:
       
       - name: Get differences
         id: all_diffs
-        run: |
-          git fetch --all
-          git diff HEAD^ HEAD
+        run: git diff --name-only ${{ github.event.before }} ${{ github.sha }}
 
       - name: Filter differences
         run: cat $ {{ steps.all_diffs }} | grep src | grep cpp
