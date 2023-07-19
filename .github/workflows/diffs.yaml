@@ -10,6 +10,7 @@ jobs:
         with:
           PATTERNS: |
             src/**/*.cpp
+            !src/**/exclude.cpp
       - name: Check for differences
         if: env.GIT_DIFF
         run: |
