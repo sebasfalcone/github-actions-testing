@@ -7,12 +7,11 @@ jobs:
 
     strategy:
       matrix:
-        dependencies:
-          - 'src.*one.*cpp|src.*two.*cpp'
-          - 'src.*two.*cpp'
-        path:
-          - src/one
-          - src/two
+        project:
+          - dependencies: 'src.*one.*cpp|src.*two.*cpp'
+            path: src/one
+          - dependencies: 'src.*two.*cpp'
+            path: src/two
     steps:
       # Prepare project repository.
       - name: Checkout repository
@@ -24,7 +23,7 @@ jobs:
         run: |
           
           DIFFS=$(git diff --name-only HEAD HEAD~1)
-          if echo $DIFFS | grep -E ${{ matrix.dependencies }}"; then
+          if echo $DIFFS | grep -E ${{ matrix.project.dependencies }}"; then
             echo "COMPILATION_FLAG=true" >> $GITHUB_ENV
           else
             echo "COMPILATION_FLAG=false" >> $GITHUB_ENV
@@ -33,7 +32,7 @@ jobs:
       - name: Build Project
         if: ${{ env.COMPILATION_FLAG == 'true' }}
         run: |
-          echo "cd ${{ matrix.project[1] }}"
+          echo "cd ${{ matrix.project.path }}"
           echo "mkdir build"
           echo "cd build"
           echo "cmake .."
