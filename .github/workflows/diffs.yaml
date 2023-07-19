@@ -8,16 +8,15 @@ jobs:
       # Prepare project repository.
       - name: Checkout repository
         uses: actions/checkout@v3
+        with:
+          fetch-depth: 2 # We need to fetch 2 commits to get the diff.
       
       - name: Get differences
-        id: all_diffs
-        run: git diff --name-only ${{ github.event.before }} ${{ github.sha }}
-
-      - name: Filter differences
-        run: cat $ {{ steps.all_diffs }} | grep src | grep cpp
-        id: filtered_diffs
-        
-      - name: Check for differences
-        if: env.GIT_DIFF
         run: |
-          echo ${{ steps.filtered_diffs }}
+          DIFFS="$(git diff --name-only HEAD HEAD~1)"
+          CHANGES="$(echo $DIFFS | grep 'src.*cpp')"
+          echo "FLAG=$?" >> $GITHUB_ENV
+
+      - name: Differences on current module
+        if: env.FLAG
+        run: echo "$FLAG"
