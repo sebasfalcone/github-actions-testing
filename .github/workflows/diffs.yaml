@@ -19,12 +19,19 @@ jobs:
       
       - name: Get differences
         run: |
-          DIFFS="$(git diff --name-only HEAD HEAD~1)"
-          CHANGES="$(echo $DIFFS | grep '${{ matrix.project[0] }}')"
-          echo "FLAG=$?" >> $GITHUB_ENV
+          echo "DIFFS=$(git diff --name-only HEAD HEAD~1)" >> $GITHUB_ENV
+
+      - name: Check for compilation requirement
+        if: env.DIFFS != ''
+        run: |
+          if echo "${{ env.DIFFS }}" | grep -q "${{ matrix.project[0] }}"; then
+            echo "COMPILATION_FLAG=true" >> $GITHUB_ENV
+          else
+            echo "COMPILATION_FLAG=false" >> $GITHUB_ENV
+          fi
           
-      - name: Differences on current module
-        if: env.FLAG == 0
+      - name: Build Project
+        if: ${{ env.COMPILATION_FLAG == 'false' }}
         run: |
           echo "cd ${{ matrix.project[1] }}"
           echo "mkdir build"
