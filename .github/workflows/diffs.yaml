@@ -17,19 +17,9 @@ jobs:
         with:
           fetch-depth: 2 # We need to fetch 2 commits to get the diff.
       
-      - name: heck for compilation requirement
-        run: |
-          echo "DIFFS=$(git diff --name-only HEAD HEAD~1)" >> $GITHUB_ENV
-          if echo "$DIFFS" | grep -q "${{ matrix.project[0] }}"; then
-            echo "COMPILATION_FLAG=true" >> $GITHUB_ENV
-          else
-            echo "COMPILATION_FLAG=false" >> $GITHUB_ENV
-          fi
-
       - name: Check for compilation requirement
-        if: ${{ env.DIFFS }} != ''
         run: |
-          if echo "${{ env.DIFFS }}" | grep -q "${{ matrix.project[0] }}"; then
+          if echo "$DIFFS" | grep -q "${{ matrix.project[0] }}"; then
             echo "COMPILATION_FLAG=true" >> $GITHUB_ENV
           else
             echo "COMPILATION_FLAG=false" >> $GITHUB_ENV
