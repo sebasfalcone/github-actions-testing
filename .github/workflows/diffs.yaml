@@ -19,9 +19,9 @@ jobs:
       
       - name: Check for compilation requirement
         run: |
-          echo $(git diff --name-only HEAD HEAD~1)
           DIFFS=$(git diff --name-only HEAD HEAD~1)
-          if echo $DIFFS | grep -q "${{ matrix.project[0] }}"; then
+          echo $DIFFS | grep -q "${{ matrix.project[0] }}"
+          if $?; then
             echo "COMPILATION_FLAG=true" >> $GITHUB_ENV
           else
             echo "COMPILATION_FLAG=false" >> $GITHUB_ENV
