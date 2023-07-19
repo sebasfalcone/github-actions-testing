@@ -9,9 +9,9 @@ jobs:
       - uses: technote-space/get-diff-action@v6
         with:
           PATTERNS: |
-            +(src)/**/*.cpp
+            src/**/*.cpp
       - name: Check for differences
         if: env.GIT_DIFF
         run: |
-          echo "Diff ${{ env.GIT_DIFF }}"
-          echo "Diff filtered ${{ env.GIT_DIFF_FILTERED }}"
+          echo 'Diff ${{ env.GIT_DIFF }}'
+          echo 'Diff filtered ${{ env.GIT_DIFF_FILTERED }}'
