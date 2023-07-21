@@ -20,6 +20,7 @@ jobs:
           fetch-depth: 2 # We need to fetch 2 commits to get the diff.
       
       - name: Check for compilation requirement
+        id: test
         run: |
           
           DIFFS=$(git diff --name-only HEAD HEAD~1)
@@ -32,15 +33,15 @@ jobs:
             echo "COMPILATION_FLAG3=false" >> $GITHUB_ENV            
           fi
 
-          echo ${{ env.COMPILATION_FLAG2 }}
-          echo ${{ env.COMPILATION_FLAG3 }}
+          echo "::set-output name=flag1::value1"
+          echo "::set-output name=flag2::value2"
+          echo "::set-output name=flag3::value3"
+          echo "::set-output name=flag1::value3"
           
       - name: Build Project
         if: ${{ env.COMPILATION_FLAG == 'true' }}
         run: |
-          echo ${{ env.COMPILATION_FLAG2 }}
-          echo "cd ${{ matrix.project.path }}"
-          echo "mkdir build"
-          echo "cd build"
-          echo "cmake .."
-          echo "make"
+          echo "Flag 1: ${{ steps.step1.outputs.flag1 }}"
+          echo "Flag 2: ${{ steps.step1.outputs.flag2 }}"
+          echo "Flag 3: ${{ steps.step1.outputs.flag3 }}"
+          echo "Flag 4: ${{ steps.step1.outputs.flag4 }}"
