@@ -25,11 +25,10 @@ jobs:
           DIFFS=$(git diff --name-only HEAD HEAD~1)
           if echo $DIFFS | grep -E '${{ matrix.project.dependencies }}'; then
             echo "COMPILATION_FLAG=true" >> $GITHUB_ENV
+            echo "COMPILATION_FLAG2=\"true\"" >> $GITHUB_ENV
+            echo "COMPILATION_FLAG2=\"false\"" >> $GITHUB_ENV            
           else
             echo "COMPILATION_FLAG=false" >> $GITHUB_ENV
-            echo "COMPILATION_FLAG2="false"" >> $GITHUB_ENV
-            echo "COMPILATION_FLAG2=\"true\"" >> $GITHUB_ENV
-            echo "COMPILATION_FLAG3=\"false\"" >> $GITHUB_ENV
             echo "COMPILATION_FLAG3=true" >> $GITHUB_ENV            
             echo "COMPILATION_FLAG3=false" >> $GITHUB_ENV            
           fi
