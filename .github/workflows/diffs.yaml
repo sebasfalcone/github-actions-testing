@@ -32,13 +32,13 @@ jobs:
             echo "COMPILATION_FLAG3=false" >> $GITHUB_ENV            
           fi
 
-          echo "${{ env.COMPILATION_FLAG2 }}"
-          echo "${{ env.COMPILATION_FLAG3 }}"
+          echo ${{ env.COMPILATION_FLAG2 }}
+          echo ${{ env.COMPILATION_FLAG3 }}
           
       - name: Build Project
         if: ${{ env.COMPILATION_FLAG == 'true' }}
         run: |
-          echo "${{ env.COMPILATION_FLAG2 }}"
+          echo ${{ env.COMPILATION_FLAG2 }}
           echo "cd ${{ matrix.project.path }}"
           echo "mkdir build"
           echo "cd build"
