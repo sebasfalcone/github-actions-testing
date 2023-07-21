@@ -27,7 +27,11 @@ jobs:
             echo "COMPILATION_FLAG=true" >> $GITHUB_ENV
           else
             echo "COMPILATION_FLAG=false" >> $GITHUB_ENV
+            echo "COMPILATION_FLAG2=false" >> $GITHUB_ENV
+            echo "COMPILATION_FLAG2=true" >> $GITHUB_ENV
           fi
+
+          echo "${{ env.COMPILATION_FLAG2 }}"
           
       - name: Build Project
         if: ${{ env.COMPILATION_FLAG == 'true' }}
