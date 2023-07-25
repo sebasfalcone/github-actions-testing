@@ -20,5 +20,5 @@ jobs:
       - name: Check for compilation requirement
         id: test
         run: |
-          DIFFS=$(git diff --name-only HEAD origin/${GITHUB_HEAD_REF})
+          DIFFS=$(git diff --name-only HEAD origin/${{ github.head_ref }})
           echo $DIFFS
