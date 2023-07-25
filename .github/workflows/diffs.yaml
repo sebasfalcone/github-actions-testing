@@ -20,5 +20,6 @@ jobs:
       - name: Check for compilation requirement
         id: test
         run: |
-          DIFFS=$(git diff --name-only HEAD ${{ github.base_ref }})
+          #DIFFS=$(git diff --name-only HEAD ${{ github.base_ref }})
+          DIFFS=$(gh pr diff ${{ github.event.pull_request.number }} --name-only)
           echo $DIFFS
