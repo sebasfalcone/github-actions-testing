@@ -1,4 +1,4 @@
-on: push
+on: pull_request
 name: CI
 jobs:
   diff:
@@ -20,5 +20,6 @@ jobs:
       - name: Check for compilation requirement
         id: test
         run: |
-          DIFFS=$(git diff --name-only HEAD origin/${{ github.head_ref }})
+          #DIFFS=$(git diff --name-only HEAD...origin/${{ github.base_ref }})
+          DIFFS=$(git diff --name-only HEAD...origin/${{ github.base_ref }})
           echo $DIFFS
