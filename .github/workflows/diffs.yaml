@@ -46,6 +46,10 @@ jobs:
             echo "${{ inputs.daemon_port }}"
             echo "${{ inputs.daemon_debug }}"
 
+            echo ${{ inputs.execution_period }}
+            echo ${{ inputs.daemon_port }}
+            echo ${{ inputs.daemon_debug }}
+
       # Prepare project repository.
       - name: Checkout repository
         uses: actions/checkout@v3
