@@ -1,4 +1,30 @@
-on: push
+on: 
+  push:
+
+  workflow_dispatch:
+    inputs:
+
+      daemon_debug:
+        description: 'Enable or disable the AP daemon debug'
+        required: true
+        type: choice
+        default: "ON"
+        options:
+          - "ON"
+          - "OFF"
+
+      daemon_port:
+        description: 'Port for the AP daemon'
+        required: true
+        type: string
+        default: "5000"
+
+      execution_period:
+        description: 'Execution period for the AP full pipeline'
+        required: true
+        type: string
+        default: "6h"
+
 name: CI
 jobs:
   diff:
