@@ -36,6 +36,6 @@ jobs:
           echo "Port: ${PORT}"
           echo "Period: ${PERIOD}"
 
-          echo "Debug: ${{ inputs.daemon_debug }}
-          echo "Port:  ${{ inputs.daemon_port }}
-          echo "Period: ${{ inputs.execution_period }}
+          echo "Debug: ${{ inputs.daemon_debug }}"
+          echo "Port:  ${{ inputs.daemon_port }}"
+          echo "Period: ${{ inputs.execution_period }}"
