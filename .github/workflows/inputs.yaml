@@ -1,33 +1,40 @@
 on:
   workflow_dispatch:
     inputs:
-      logLevel:
-        description: 'Log level'
+      daemon_debug:
+        description: 'Enable or disable the AP daemon debug'
         required: true
-        default: 'warning'
         type: choice
+        default: "ON"
         options:
-        - info
-        - warning
-        - debug
-      tags:
-        description: 'Test scenario tags'
-        required: false
-        type: boolean
-      environment:
-        description: 'Environment to run tests against'
-        type: environment
+          - "ON"
+          - "OFF"
+
+      daemon_port:
+        description: 'Port for the AP daemon'
         required: true
+        type: string
+        default: "5000"
+
+      execution_period:
+        description: 'Execution period for the AP full pipeline'
+        required: true
+        type: string
+        default: "6h"
 
 jobs:
   log-the-inputs:
     runs-on: ubuntu-latest
     steps:
       - run: |
-          echo "Log level: $LEVEL"
-          echo "Tags: $TAGS"
-          echo "Environment: $ENVIRONMENT"
+          echo "Debug: ${DEBUG}"
+          echo "Port: ${PORT}"
+          echo "Period: ${PERIOD}"
+
+          echo "Debug: ${{ inputs.daemon_debug }}
+          echo "Port:  ${{ inputs.daemon_port }}
+          echo "Period: ${{ inputs.execution_period }}
         env:
-          LEVEL: ${{ inputs.logLevel }}
-          TAGS: ${{ inputs.tags }}
-          ENVIRONMENT: ${{ inputs.environment }}
+          DEBUG: ${{ inputs.daemon_debug }}
+          PORT: ${{ inputs.daemon_port }}
+          PERIOD: ${{ inputs.execution_period }}
