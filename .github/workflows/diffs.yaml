@@ -39,6 +39,13 @@ jobs:
           - dependencies: 'src.*two.*cpp'
             path: src/two
     steps:
+      - name: echo vars
+        run: |
+
+            echo "${{ inputs.execution_period }}"
+            echo "${{ inputs.daemon_port }}"
+            echo "${{ inputs.daemon_debug }}"
+
       # Prepare project repository.
       - name: Checkout repository
         uses: actions/checkout@v3
