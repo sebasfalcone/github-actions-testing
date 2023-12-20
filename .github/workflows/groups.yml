@@ -1,0 +1,13 @@
+on:
+  pull_request:
+
+concurrency:
+    group: "branch name"
+    cancel-in-progress: true
+
+jobs:
+    - name: delay
+        run: sleep 10
+    
+    - name: print
+        run: echo "hello world"
