@@ -1,9 +1,12 @@
 ---
 name: New translation - PackageName - Targets
-about: Used to request a new translation.
+description: Used to request a new translation.
 title: PackageName - Targets
-labels: level/task, type/enhancement
-assignees: ""
+labels: 
+  - level/task
+  - type/enhancement
+assignees: 
+  - "username"
 ---
 
 <!--
