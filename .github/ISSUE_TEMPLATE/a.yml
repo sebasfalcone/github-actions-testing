@@ -1,15 +1,13 @@
 ---
-name: New translation - PackageName - Targets
-description: Used to request a new translation.
-title: PackageName - Targets
+name: "New translation - PackageName - Targets"
+description: "Used to request a new translation."
+title: "PackageName - Targets"
 labels: 
   - level/task
   - type/enhancement
 assignees: 
   - " "
 ---
-
-## Description
 
 <!--
     The issue title must follow the following format:
