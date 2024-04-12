@@ -1,41 +1,41 @@
+name: Checkout testing
+
 on:
+  push:
+
   workflow_dispatch:
     inputs:
-      daemon_debug:
-        description: 'Enable or disable the AP daemon debug'
-        required: true
-        type: choice
-        default: "ON"
-        options:
-          - "ON"
-          - "OFF"
-
-      daemon_port:
-        description: 'Port for the AP daemon'
+      wazuh_version:
+        description: 'Identifier of the generated content. The generated file will be named vd_1.0.0_vd_<wazuh_version>.tar.xz'
         required: true
         type: string
-        default: "5000"
-
-      execution_period:
-        description: 'Execution period for the AP full pipeline'
-        required: true
-        type: string
-        default: "6h"
 
 jobs:
-  log-the-inputs:
-    runs-on: ubuntu-latest
-    steps:
-      - name: print
-        env:
-          DEBUG: ${{ inputs.daemon_debug }}
-          PORT: ${{ inputs.daemon_port }}
-          PERIOD: ${{ inputs.execution_period }}
-        run: |
-          echo "Debug: ${DEBUG}"
-          echo "Port: ${PORT}"
-          echo "Period: ${PERIOD}"
+  checkout_testing:
 
-          echo "Debug: ${{ inputs.daemon_debug }}"
-          echo "Port:  ${{ inputs.daemon_port }}"
-          echo "Period: ${{ inputs.execution_period }}"
+    runs-on: ubuntu-latest
+
+    strategy:
+      fail-fast: false
+      matrix:
+          # Idenentifiers of the generated content. The generated files will be named vd_1.0.0_vd_<wazuh_version>.tar.xz
+          wazuh_version: ["testing", "testing2", "invalid branch"]
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+        with:
+          submodules: recursive
+          fetch-depth: 0
+          ref: ${{ matrix.wazuh_version }}
+
+      # Checkout to the tag
+      # If the tag does not exist, checkout to the branch
+      # If the branch does not exist, exit with an error
+      - name: Checkout to wazuh_version   
+        run: |
+          if git show-ref --tags --verify --quiet "refs/tags/v${{ matrix.wazuh_version }}"; then
+            git checkout --quiet "tags/v${{ matrix.wazuh_version }}"
+          else
+            echo "Warning: Unable to find tag v${{ matrix.wazuh_version }}. Continuing with branch ${{ matrix.wazuh_version }}"
+          fi
