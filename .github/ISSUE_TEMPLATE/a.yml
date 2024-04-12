@@ -1,0 +1,77 @@
+---
+name: New translation - PackageName - Targets
+about: Used to request a new translation.
+title: PackageName - Targets
+labels: level/task, type/enhancement
+assignees: ''
+
+---
+
+<!--
+    The issue title must follow the following format:
+      - New translation - PackageName - [Target 1 , Target 2, Target n]
+
+    Where:
+      - PackageName is the name field obtained from syscllector
+      - Each target is the platforms that require the translation
+-->
+
+## Package Name
+
+<!--
+    The package that requires the translation
+-->
+
+## Targets
+<!--
+List of targets with their sycollector data. For example:
+- Target 1
+    ```json
+         {
+            "scan": {
+               "id": 0,
+               "time": "2024-04-12T09:40:50+00:00"
+            },
+            "name": "Node.js",
+            "architecture": "x86_64",
+            "vendor": "Node.js Foundation",
+            "source": " ",
+            "format": "win",
+            "size": 0,
+            "version": "18.0.0",
+            "location": " ",
+            "priority": " ",
+            "install_time": "2024-04-12T09:40:35+00:00",
+            "description": " ",
+            "section": " ",
+            "agent_id": "007"
+         }
+   ```
+- Target 2
+    ```json
+         {
+            "scan": {
+               "id": 0,
+               "time": "2024-04-12T09:40:50+00:00"
+            },
+            "name": "Node.js",
+            "architecture": "x86_64",
+            "vendor": "Node.js Foundation",
+            "source": " ",
+            "format": "deb",
+            "size": 0,
+            "version": "18.0.0",
+            "location": " ",
+            "priority": " ",
+            "install_time": "2024-04-12T09:40:35+00:00",
+            "description": " ",
+            "section": " ",
+            "agent_id": "007"
+         }
+   ```
+-->
+
+## Expected match
+<!--
+  Generally, a translation is required when some CVE doesn't match
+-->
