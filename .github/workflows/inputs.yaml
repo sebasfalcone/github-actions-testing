@@ -43,7 +43,7 @@ jobs:
       # - The PR is merged into master
       # - The workflow is manually triggered
       - name: Echo test
-        if: ${{ success() && ((github.event_name == 'push' && github.base_ref == 'master') || github.event_name == 'workflow_dispatch') }}
+        if: ${{ success() && (github.event_name == 'push' || github.event_name == 'workflow_dispatch') }}
         run: |
           echo "Test"
           echo "Event name: ${{ github.event_name }}"
