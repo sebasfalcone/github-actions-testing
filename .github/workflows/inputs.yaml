@@ -1,41 +1,50 @@
-name: Checkout testing
+name: Engine VD Scanner tools Delivery
 
+# Controls when the action will run.
 on:
-  push:
+  # Triggers the workflow on pull request but only changes in src/engine/source/vdscanner/{tools,src,include} directories.
+  # Trigger on pull request changes
+  pull_request:
+    types: [synchronize, opened, reopened, ready_for_review]
 
+  # Trigger when a pull request is merged into master
+  push:
+    branches:
+      - master
+
+  # Allows manual trigger.
   workflow_dispatch:
-    inputs:
-      wazuh_version:
-        description: 'Identifier of the generated content. The generated file will be named vd_1.0.0_vd_<wazuh_version>.tar.xz'
-        required: true
-        type: string
+
+# Ensures only one instance of this workflow is running per PR
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+
+env:
+  BUILD_PRESET: debug
+  ENGINE_DIR: ${{github.workspace}}/src/engine
+  TOOLS_DIR: ${{github.workspace}}/src/engine/build/source/vdscanner/tools
+  TOOLS_FILE_NAME: vdscanner_tools
+  FEEDMANAGER_DIR: ${{github.workspace}}/src/engine/source/feedmanager
 
 jobs:
-  checkout_testing:
+  build:
+    name: Engine VD Scanner Tools Delivery
 
-    runs-on: ubuntu-latest
-
-    strategy:
-      fail-fast: false
-      matrix:
-          # Idenentifiers of the generated content. The generated files will be named vd_1.0.0_vd_<wazuh_version>.tar.xz
-          wazuh_version: ["testing", "testing2", "invalid branch"]
+    # Runs only if the PR status is different to Draft
+    if: ${{ !github.event.pull_request.draft }}
+    runs-on: ubuntu-22.04
+    timeout-minutes: 60
 
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v3
-        with:
-          submodules: recursive
-          fetch-depth: 0
-          ref: ${{ matrix.wazuh_version }}
-
-      # Checkout to the tag
-      # If the tag does not exist, checkout to the branch
-      # If the branch does not exist, exit with an error
-      - name: Checkout to wazuh_version   
+      - name: Check out repository
+        uses: actions/checkout@v4
+ 
+      # Only uploads the vdscanner tools if:
+      # - The PR is merged into master
+      # - The workflow is manually triggered
+      - name: Echo test
+        if: ${{ success() && ((github.event_name == 'push' && github.base_ref == 'master') || github.event_name == 'workflow_dispatch') }}
         run: |
-          if git show-ref --tags --verify --quiet "refs/tags/v${{ matrix.wazuh_version }}"; then
-            git checkout --quiet "tags/v${{ matrix.wazuh_version }}"
-          else
-            echo "Warning: Unable to find tag v${{ matrix.wazuh_version }}. Continuing with branch ${{ matrix.wazuh_version }}"
-          fi
+          echo "Test"
+          echo "Event name: ${{ github.event_name }}"
+          echo "Base ref: ${{ github.base_ref }}"
